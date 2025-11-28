@@ -1,0 +1,30 @@
+name: Monthly Report
+
+on:
+  schedule:
+    - cron: "0 7 1 * *"   # أول يوم في الشهر 07:00 UTC
+  workflow_dispatch:
+
+jobs:
+  monthly-report:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate report
+        run: python scripts/generate_report.py
+
+      - name: Upload Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: monthly-report
+          path: output/report/
