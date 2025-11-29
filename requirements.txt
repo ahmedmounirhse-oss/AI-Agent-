@@ -8,3 +8,4 @@ groq
 python-dotenv
 scikit-learn
 matplotlib
+fpdf==1.7.2
