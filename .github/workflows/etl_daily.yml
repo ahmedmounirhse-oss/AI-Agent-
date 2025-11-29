@@ -1,0 +1,30 @@
+name: Daily ETL
+
+on:
+  schedule:
+    - cron: "0 2 * * *"   # يوميًا الساعة 2 صباحًا UTC
+  workflow_dispatch:
+
+jobs:
+  etl:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run ETL
+        run: python scripts/etl.py
+
+      - name: Upload ETL output
+        uses: actions/upload-artifact@v4
+        with:
+          name: etl-output
+          path: output/etl/
